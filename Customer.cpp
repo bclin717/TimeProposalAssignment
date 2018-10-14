@@ -7,25 +7,26 @@
 
 
 Customer::Customer(int id) {
-    id = id;
+    _id = id;
+    timeWindow.setTimeWindowCase(0);
 }
 
 Customer::Customer(int id, int timeWindowCase) {
-    id = id;
+    _id = id;
     timeWindow.setTimeWindowCase(timeWindowCase);
 }
 
 Customer::Customer(const Customer &c) {
-    id = c.id;
+    _id = c._id;
     timeWindow = TimeWindow(c.timeWindow);
 }
 
 int Customer::getID() {
-    return id;
+    return _id;
 }
 
 void Customer::setID(int id) {
-    id = id;
+    _id = id;
 }
 
 void Customer::setTimeWindowCase(int timeWindowCase) {

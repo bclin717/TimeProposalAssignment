@@ -9,11 +9,13 @@
 
 class Chromosome{
 public:
-    Chromosome();
-    Chromosome(std::vector<Customer> &c);
-    std::vector<Customer> _customers;
+    Chromosome(bool random);
+    Chromosome(std::vector<TimeWindow> &c);
+    std::vector<TimeWindow> _timeWindows;
 
     float calculateFitnessValue();
+    void random();
+    void getTimeWindowCases();
 
 private:
     float _fitnewssValue;

@@ -18,7 +18,7 @@ public:
     void setTimeWindowCase(int timeWindowCase);
     TimeWindow getTimeWindow();
 private:
-    int id;
+    int _id;
     TimeWindow timeWindow;
 };
 

@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <vector>
-#include <ctime>
+#include <time.h>
 #include <algorithm>
 
 #include "Customer.h"
@@ -33,11 +33,8 @@ const unsigned int Lbound[NumberOfDeterministicCustomers] = {0, 60, 300, 300, 0,
                                                              0, 240};
 const unsigned int Ubound[NumberOfDeterministicCustomers] = {600, 120, 360, 360, 60, 540, 540, 540, 120, 60, 120, 60,
                                                              540, 240, 60, 300};
-
 static const int NumberOfStochasticCustomers = 16;
-
 static const int NumberOfChromosome = 10;
-
 static const unsigned int NumberOfGeneration = 500;
 
 const float distanceMatrix[NumberOfDeterministicCustomers][NumberOfDeterministicCustomers] = {
@@ -78,5 +75,8 @@ const float costMatrix[NumberOfDeterministicCustomers][NumberOfDeterministicCust
         {5.56,1.22,4.16,1.38,4.28,4.53,1.42,3.39,2.53,1.74,2.23,0.89,3.56,1.61,1.05,99999.00}
 };
 
+const int DefaultTimeWindow[] = {
+        0, 2, 6, 6, 1, 9, 9, 9, 2, 1, 2, 1, 9, 4, 1, 5
+};
 
 #endif //MTVRPTWSC_PARAM_H

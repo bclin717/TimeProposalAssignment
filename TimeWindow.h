@@ -8,7 +8,7 @@
 class TimeWindow {
 public:
     TimeWindow();
-
+    TimeWindow(int c);
     TimeWindow(const TimeWindow &t);
 
     int getLowerBound();
@@ -21,9 +21,12 @@ public:
 
     void setTimeWindowCase(int c);
 
+    int getCase();
+
 private:
     int _lowerBound;
     int _upperBound;
+    int _case;
 };
 
 #endif //TIMEPROPOSALASSIGNMENT_TIMEWINDOW_H

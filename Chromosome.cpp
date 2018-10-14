@@ -4,28 +4,20 @@
 
 #include "Param.h"
 
-Chromosome::Chromosome() {
+Chromosome::Chromosome(bool isRandom) {
     _fitnewssValue = 0;
     _wheelProbability = 0;
-
     for(unsigned int i = 0; i < NumberOfDeterministicCustomers; i++) {
-        _customers.emplace_back(i);
+        _timeWindows.emplace_back(TimeWindow(DefaultTimeWindow[i]));
     }
-
-    for(unsigned int i = 1; i < _customers.size(); i++) {
-        int j = static_cast<int>((rand() % (_customers.size() - 1)) + 1);
-        Customer temp = _customers.at(i);
-        _customers.at(i) = _customers.at(j);
-        _customers.at(j) = temp;
-    }
-
-    _fitnewssValue = calculateFitnessValue();
+    if(isRandom) random();
+    calculateFitnessValue();
 }
 
-Chromosome::Chromosome(std::vector<Customer> &c) {
+Chromosome::Chromosome(std::vector<TimeWindow> &c) {
     _fitnewssValue = 0;
     _wheelProbability = 0;
-    _customers.assign(c.begin(), c.end());
+    _timeWindows.assign(c.begin(), c.end());
     _fitnewssValue = calculateFitnessValue();
 }
 
@@ -61,4 +53,21 @@ float Chromosome::calculateFitnessValue() {
 //    }
     _fitnewssValue = COST;
     return COST;
+}
+
+void Chromosome::random() {
+    for(unsigned int i = 1; i < _timeWindows.size(); i++) {
+        int j = static_cast<int>((rand() % (_timeWindows.size() - 1)) + 1);
+        TimeWindow temp = _timeWindows.at(i);
+        _timeWindows.at(i) = _timeWindows.at(j);
+        _timeWindows.at(j) = temp;
+    }
+    calculateFitnessValue();
+}
+
+void Chromosome::getTimeWindowCases() {
+    for (auto &_timeWindow : _timeWindows) {
+        cout << _timeWindow.getCase() << " ";
+    }
+    cout << endl;
 }

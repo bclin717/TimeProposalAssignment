@@ -75,8 +75,14 @@ const float costMatrix[NumberOfDeterministicCustomers][NumberOfDeterministicCust
         {5.56,1.22,4.16,1.38,4.28,4.53,1.42,3.39,2.53,1.74,2.23,0.89,3.56,1.61,1.05,99999.00}
 };
 
+const int T = 3;
+const int Alpha = 1;
+const int Beta = 1;
+const int bBar = 160;
+
+const int NumberOfTimeWindowCase = 12;
 const int DefaultTimeWindow[] = {
-        0, 2, 6, 6, 1, 9, 9, 9, 2, 1, 2, 1, 9, 4, 1, 5
+        2, 6, 6, 1, 9, 9, 9, 2, 1, 2, 1, 9, 4, 1, 5
 };
 
 #endif //MTVRPTWSC_PARAM_H

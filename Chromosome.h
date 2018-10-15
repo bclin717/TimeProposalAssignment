@@ -16,8 +16,10 @@ public:
     float calculateFitnessValue();
     void random();
     void getTimeWindowCases();
+    void getNumberOfTimeWindows();
 
 private:
+    std::vector<int> numberOfTimeWindows;
     float _fitnewssValue;
     double _wheelProbability;
 

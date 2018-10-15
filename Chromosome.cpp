@@ -7,10 +7,16 @@
 Chromosome::Chromosome(bool isRandom) {
     _fitnewssValue = 0;
     _wheelProbability = 0;
-    for(unsigned int i = 0; i < NumberOfDeterministicCustomers; i++) {
+    for(unsigned int i = 0; i < NumberOfDeterministicCustomers-1; i++) {
         _timeWindows.emplace_back(TimeWindow(DefaultTimeWindow[i]));
     }
     if(isRandom) random();
+
+    for(unsigned int i = 0; i < NumberOfTimeWindowCase + 1; i++) numberOfTimeWindows.emplace_back(0);
+    for(unsigned int i = 0; i < _timeWindows.size(); i++) {
+        numberOfTimeWindows.at(_timeWindows.at(i).getCase())++;
+    }
+
     calculateFitnessValue();
 }
 
@@ -57,17 +63,21 @@ float Chromosome::calculateFitnessValue() {
 
 void Chromosome::random() {
     for(unsigned int i = 1; i < _timeWindows.size(); i++) {
-        int j = static_cast<int>((rand() % (_timeWindows.size() - 1)) + 1);
-        TimeWindow temp = _timeWindows.at(i);
-        _timeWindows.at(i) = _timeWindows.at(j);
-        _timeWindows.at(j) = temp;
+        int j = static_cast<int>((rand() % (NumberOfTimeWindowCase )) + 1);
+        _timeWindows.at(i).setTimeWindowCase(j);
     }
     calculateFitnessValue();
 }
 
 void Chromosome::getTimeWindowCases() {
-    for (auto &_timeWindow : _timeWindows) {
+    for (auto &_timeWindow : _timeWindows)
         cout << _timeWindow.getCase() << " ";
-    }
+
     cout << endl;
+}
+
+void Chromosome::getNumberOfTimeWindows() {
+    for(unsigned int i = 0; i < numberOfTimeWindows.size(); i++)
+        cout << numberOfTimeWindows.at(i) << " ";
+    cout << endl << endl;
 }

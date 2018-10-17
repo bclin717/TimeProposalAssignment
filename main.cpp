@@ -70,19 +70,14 @@ void algorithm2() {
         }
     }
 
-    for (int i = cutEnd; i < parent[0]._timeWindows.size(); i++) {
+    for (int i = cutEnd; i < parent[0]._timeWindows.size(); i++)
         child[0]._timeWindows.emplace_back(parent[1]._timeWindows.at(i));
-    }
-    for (int i = cutEnd; i < parent[1]._timeWindows.size(); i++) {
+    for (int i = cutEnd; i < parent[1]._timeWindows.size(); i++)
         child[1]._timeWindows.emplace_back(parent[0]._timeWindows.at(i));
-    }
-
-    for (int i = 0; i < cutBegin; i++) {
+    for (int i = 0; i < cutBegin; i++)
         child[0]._timeWindows.insert(child[0]._timeWindows.begin() + i, parent[1]._timeWindows.at(i));
-    }
-    for (int i = 0; i < cutBegin; i++) {
+    for (int i = 0; i < cutBegin; i++)
         child[1]._timeWindows.insert(child[1]._timeWindows.begin() + i, parent[0]._timeWindows.at(i));
-    }
 
     for (int i = 0; i < 2; i++) {
         child[i].calculateFitnessValue();
@@ -93,7 +88,6 @@ void algorithm2() {
     sort(chromosomes.begin(), chromosomes.end(), Chromosome::cmp);
     for (int i = 0; i < 2; i++)
         chromosomes.pop_back();
-
 }
 
 int main() {
@@ -105,7 +99,6 @@ int main() {
 
     for (int i = 0; i < chromosomes.size(); i++)
         chromosomes.at(i).getTimeWindowCases();
-
 
     return 0;
 }

@@ -82,9 +82,9 @@ const int bBar = 160;
 
 const int NumberOfTimeWindowCase = 12;
 const int NumberOfTimeWindowSaleCase = 7;
-const int DefaultTimeWindow[] = {
-        2, 6, 6, 1, 9, 9, 9, 2, 1, 2, 1, 9, 4, 1, 5
-};
+//const int DefaultTimeWindow[] = {2, 6, 6, 1, 9, 9, 9, 2, 1, 2, 1, 9, 4, 1, 5};
+const int DefaultTimeWindow[] = {2, 6, 1, 1, 11, 9, 4, 2, 12, 3, 1, 11, 4, 1, 3};
+
 
 const int saleDemand[NumberOfDeterministicCustomers - 1][NumberOfTimeWindowSaleCase] = {
         {30,  12,  26,  2,   91,  67,  77},

@@ -9,14 +9,23 @@
 
 class Chromosome{
 public:
+    static bool cmp(const Chromosome &c1, const Chromosome &c2);
     Chromosome(bool random);
     Chromosome(std::vector<TimeWindow> &c);
     std::vector<TimeWindow> _timeWindows;
 
     float calculateFitnessValue();
     void random();
+
+
     void getTimeWindowCases();
     void getNumberOfTimeWindows();
+
+    void setWheelProbability(double p);
+
+    double getWheelProbability();
+
+    bool isExists(int cID);
 
 private:
     std::vector<int> numberOfTimeWindows;

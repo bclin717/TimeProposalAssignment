@@ -4,6 +4,10 @@
 
 #include "Param.h"
 
+bool Chromosome::cmp(const Chromosome &c1, const Chromosome &c2) {
+    return c1._fitnewssValue < c2._fitnewssValue;
+}
+
 Chromosome::Chromosome(bool isRandom) {
     _fitnewssValue = 0;
     _wheelProbability = 0;
@@ -62,4 +66,18 @@ void Chromosome::getNumberOfTimeWindows() {
     for (int numberOfTimeWindow : numberOfTimeWindows)
         cout << numberOfTimeWindow << " ";
     cout << endl << endl;
+}
+
+bool Chromosome::isExists(int cID) {
+    for (auto &_timeWindow : _timeWindows)
+        if (_timeWindow.getCase() == cID) return true;
+    return false;
+}
+
+double Chromosome::getWheelProbability() {
+    return _wheelProbability;
+}
+
+void Chromosome::setWheelProbability(double p) {
+    _wheelProbability = p;
 }

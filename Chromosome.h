@@ -11,7 +11,8 @@ class Chromosome{
 public:
     static bool cmp(const Chromosome &c1, const Chromosome &c2);
     Chromosome(bool random);
-    Chromosome(std::vector<TimeWindow> &c);
+
+    Chromosome(const Chromosome &c);
     std::vector<TimeWindow> _timeWindows;
 
     float calculateFitnessValue();
@@ -20,6 +21,8 @@ public:
 
     void getTimeWindowCases();
     void getNumberOfTimeWindows();
+
+    void updateNumberOfTimeWindows();
 
     void setWheelProbability(double p);
 

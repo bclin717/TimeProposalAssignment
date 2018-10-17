@@ -15,23 +15,18 @@ Chromosome::Chromosome(bool isRandom) {
         _timeWindows.emplace_back(TimeWindow(i));
     }
     if(isRandom) random();
-
-    for(unsigned int i = 0; i < NumberOfTimeWindowCase + 1; i++) numberOfTimeWindows.emplace_back(0);
-    for (auto &_timeWindow : _timeWindows) {
-        numberOfTimeWindows.at(static_cast<unsigned int>(_timeWindow.getCase()))++;
-    }
-
+    updateNumberOfTimeWindows();
     calculateFitnessValue();
 }
 
-Chromosome::Chromosome(std::vector<TimeWindow> &c) {
-    _fitnewssValue = 0;
-    _wheelProbability = 0;
-    _timeWindows.assign(c.begin(), c.end());
-    _fitnewssValue = calculateFitnessValue();
+Chromosome::Chromosome(const Chromosome &c) {
+    _fitnewssValue = c._fitnewssValue;
+    _wheelProbability = c._wheelProbability;
+    _timeWindows.assign(c._timeWindows.begin(), c._timeWindows.end());
 }
 
 float Chromosome::calculateFitnessValue() {
+    updateNumberOfTimeWindows();
     int sum1 = 0, sum2 = 0;
     for (int i = 0; i < NumberOfDeterministicCustomers - 1; i++) {
         sum1 += minimumCostForAssigningCustomer[i][_timeWindows.at(i).getCase() - 1];
@@ -68,6 +63,14 @@ void Chromosome::getNumberOfTimeWindows() {
     cout << endl << endl;
 }
 
+void Chromosome::updateNumberOfTimeWindows() {
+    numberOfTimeWindows.clear();
+    for (unsigned int i = 0; i < NumberOfTimeWindowCase + 1; i++) numberOfTimeWindows.emplace_back(0);
+    for (auto &_timeWindow : _timeWindows) {
+        numberOfTimeWindows.at(static_cast<unsigned int>(_timeWindow.getCase()))++;
+    }
+}
+
 bool Chromosome::isExists(int cID) {
     for (auto &_timeWindow : _timeWindows)
         if (_timeWindow.getCase() == cID) return true;
@@ -81,3 +84,4 @@ double Chromosome::getWheelProbability() {
 void Chromosome::setWheelProbability(double p) {
     _wheelProbability = p;
 }
+

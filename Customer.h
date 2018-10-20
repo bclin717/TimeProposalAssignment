@@ -20,6 +20,7 @@ public:
 private:
     int _id;
     TimeWindow timeWindow;
+
 };
 
 #endif //TIMEPROPOSALASSIGNMENT_CUSTOMER_H

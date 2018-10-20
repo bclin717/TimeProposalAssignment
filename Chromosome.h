@@ -10,8 +10,9 @@
 class Chromosome{
 public:
     static bool cmp(const Chromosome &c1, const Chromosome &c2);
-    Chromosome(bool random);
 
+    Chromosome();
+    Chromosome(bool random);
     Chromosome(const Chromosome &c);
     std::vector<TimeWindow> _timeWindows;
 

@@ -4,14 +4,16 @@
 using namespace std;
 
 vector<Chromosome> chromosomes;
+Chromosome solution;
 
 void generation() {
     for(int i = 0; i < NumberOfChromosome; i++) {
         chromosomes.emplace_back(Chromosome(i != 0));
     }
+    chromosomes.at(0).getTimeWindowCases();
 }
 
-void algorithm2() {
+void geneAlgorithm() {
     //Roulette Wheel Selection
     //Calculate probabilities of all Chromosome
     double total = 0;
@@ -90,15 +92,90 @@ void algorithm2() {
         chromosomes.pop_back();
 }
 
+void calculateCOST() {
+    // Part 2
+    solution = Chromosome(chromosomes.at(0));
+    solution.getTimeWindowCases();
+
+    // Calculate r = ai - ci
+    vector<int> r;
+    vector<vector<int>> timewindowProposalAndNumberOfCustomers;
+    for (int i = 0; i < solution._timeWindows.size(); i++) {
+        timewindowProposalAndNumberOfCustomers.emplace_back(vector<int>());
+    }
+
+    for (int i = 0; i < solution._timeWindows.size(); i++) {
+        r.emplace_back(solution._timeWindows.at(i).getCase() - DefaultTimeWindow[i]);
+    }
+
+    // Calculate TimeWindow proposal m and y
+    vector<int> m;
+    vector<int> y;
+    for (int i = 0; i < solution._timeWindows.size(); i++) {
+        int p = 999999;
+        if (r.at(i) == 0) {
+            y.emplace_back(0);
+            continue;
+        } else if (r.at(i) > 2) {
+            m.emplace_back(6);
+            m.emplace_back(7);
+        } else if (r.at(i) == 1) {
+            m.emplace_back(2);
+            m.emplace_back(4);
+            m.emplace_back(5);
+        } else if (r.at(i) == -1) {
+            m.emplace_back(1);
+            m.emplace_back(3);
+            m.emplace_back(5);
+        } else if (r.at(i) == 2) {
+            m.emplace_back(4);
+            m.emplace_back(6);
+            m.emplace_back(7);
+        } else if (r.at(i) == -2) {
+            m.emplace_back(3);
+            m.emplace_back(6);
+            m.emplace_back(7);
+        }
+
+        // Calculate the smallest cost when customer changes timewindow
+        int caseChosen = 0;
+        for (int j = 0; j < m.size(); j++) {
+            if (p > saleDemand[i][m.at(j)]) {
+                p = saleDemand[i][m.at(j)];
+                caseChosen = m.at(j);
+            }
+        }
+        timewindowProposalAndNumberOfCustomers.at(caseChosen).emplace_back(i);
+        y.emplace_back(p);
+    }
+
+    int cost = 0;
+    for (int i = 0; i < NumberOfTimeWindowSaleCase; i++) {
+        if (timewindowProposalAndNumberOfCustomers.at(i).size() == 1) {
+            cost += saleDemand[timewindowProposalAndNumberOfCustomers.at(i).at(0)][i];
+            continue;
+        }
+        
+        for (int j = 1; j < timewindowProposalAndNumberOfCustomers.at(i).size(); j++) {
+            int a = saleDemand[timewindowProposalAndNumberOfCustomers.at(i).at(0)][i];
+            int b = saleDemand[timewindowProposalAndNumberOfCustomers.at(i).at(j)][i];
+            cost += abs(a - b);
+        }
+    }
+
+    cout << cost << endl;
+}
+
 int main() {
     srand(static_cast<unsigned int>(time(nullptr)));
     generation();
 
+    // Part 1
     for (int i = 0; i < NumberOfGeneration; i++)
-        algorithm2();
+        geneAlgorithm();
 
-    for (int i = 0; i < chromosomes.size(); i++)
-        chromosomes.at(i).getTimeWindowCases();
+    calculateCOST();
+
 
     return 0;
 }

@@ -8,6 +8,7 @@ bool Chromosome::cmp(const Chromosome &c1, const Chromosome &c2) {
     return c1._fitnewssValue < c2._fitnewssValue;
 }
 
+Chromosome::Chromosome() {}
 Chromosome::Chromosome(bool isRandom) {
     _fitnewssValue = 0;
     _wheelProbability = 0;

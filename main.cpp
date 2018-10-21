@@ -247,7 +247,7 @@ int main() {
 
     fprintf(output, "default : ");
     for (int i = 0; i < chromosomes.size(); i++) {
-        fprintf(output, "%d ", chromosomes[0]._timeWindows[i].getCase());
+        fprintf(output, "%3d ", chromosomes[0]._timeWindows[i].getCase());
     }
     if (chromosomes[0].calculateFitnessValue() < 1) fprintf(output, "Fitness Value : 0 \n");
     else fprintf(output, "Fitness Value : %5.3f \n", chromosomes[0].calculateFitnessValue());
@@ -263,7 +263,7 @@ int main() {
 
     fprintf(output, "aiz/ai  : ");
     for (int i = 0; i < solution._timeWindows.size(); i++) {
-        fprintf(output, "%d ", solution._timeWindows[i].getCase());
+        fprintf(output, "%3d ", solution._timeWindows[i].getCase());
     }
     if (solution.calculateFitnessValue() < 1) fprintf(output, "Fitness Value : 0 \n");
     else fprintf(output, "Fitness Value : %5.3f \n", solution.calculateFitnessValue());

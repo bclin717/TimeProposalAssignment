@@ -4,6 +4,8 @@
 
 #include "Param.h"
 
+using namespace std;
+
 bool Chromosome::cmp(const Chromosome &c1, const Chromosome &c2) {
     return c1._fitnewssValue < c2._fitnewssValue;
 }
@@ -12,11 +14,12 @@ Chromosome::Chromosome() {}
 Chromosome::Chromosome(bool isRandom) {
     _fitnewssValue = 0;
     _wheelProbability = 0;
+
     for (int i : DefaultTimeWindow) {
         _timeWindows.emplace_back(TimeWindow(i));
     }
-    if(isRandom) random();
     updateNumberOfTimeWindows();
+    if(isRandom) random();
     calculateFitnessValue();
 }
 
@@ -29,8 +32,10 @@ Chromosome::Chromosome(const Chromosome &c) {
 float Chromosome::calculateFitnessValue() {
     updateNumberOfTimeWindows();
     int sum1 = 0, sum2 = 0;
+    int j = 0;
     for (int i = 0; i < NumberOfDeterministicCustomers - 1; i++) {
-        sum1 += minimumCostForAssigningCustomer[i][_timeWindows.at(i).getCase() - 1];
+        j = _timeWindows.at(i).getCase() - 1;
+        sum1 += minimumCostForAssigningCustomer[i][j];
     }
     sum1 *= Alpha;
 
@@ -40,6 +45,7 @@ float Chromosome::calculateFitnessValue() {
     }
     sum2 *= Beta;
     _fitnewssValue = sum1 + sum2;
+    if (_fitnewssValue == 0) _fitnewssValue = 0.1;
     return _fitnewssValue;
 }
 
@@ -48,7 +54,6 @@ void Chromosome::random() {
         int j = static_cast<int>((std::rand() % (NumberOfTimeWindowCase)) + 1);
         _timeWindows.at(i).setTimeWindowCase(j);
     }
-    calculateFitnessValue();
 }
 
 void Chromosome::getTimeWindowCases() {

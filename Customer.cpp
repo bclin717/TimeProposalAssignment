@@ -5,7 +5,6 @@
 #include "Param.h"
 #include "Customer.h"
 
-
 Customer::Customer(int id) {
     _id = id;
     timeWindow.setTimeWindowCase(0);

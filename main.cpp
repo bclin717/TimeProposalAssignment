@@ -2,6 +2,7 @@
 using namespace std;
 
 vector<Chromosome> chromosomes;
+Chromosome D;
 Chromosome solution;
 int NumberOfDeterministicCustomers = 0;
 int cost = 0;
@@ -63,6 +64,47 @@ void readFiles() {
         minimumCostForAssigningCustomer.at(i).emplace_back(input);
     }
     fclose(thetaIZ);
+}
+
+void outputFiles() {
+
+    FILE *output;
+    output = fopen("output.txt", "w");
+
+    fprintf(output, "default : ");
+    for (int i = 0; i < chromosomes.size(); i++) {
+        fprintf(output, "%3d ", D._timeWindows[i].getCase());
+    }
+    if (chromosomes[0].calculateFitnessValue() < 1) fprintf(output, "Fitness Value : 0 \n");
+    else fprintf(output, "Fitness Value : %5.3f \n", D.calculateFitnessValue());
+
+    fprintf(output, "aiz/ai  : ");
+    for (int i = 0; i < solution._timeWindows.size(); i++) {
+        fprintf(output, "%3d ", solution._timeWindows[i].getCase());
+    }
+    if (solution.calculateFitnessValue() < 1) fprintf(output, "Fitness Value : 0 \n");
+    else fprintf(output, "Fitness Value : %5.3f \n", solution.calculateFitnessValue());
+
+    fprintf(output, "yim : ");
+    for (int i = 0; i < y.size(); i++) {
+        fprintf(output, "y%d/%d = %3d, ", i + 1, m2[i], y[i]);
+    }
+    fprintf(output, "\n");
+
+    fprintf(output, "wim : ");
+    for (int i = 0; i < solution._timeWindows.size(); i++) {
+        fprintf(output, "w%d/%d = %3d, ", i + 1, m2[i], 1);
+    }
+    fprintf(output, "\n");
+
+    fprintf(output, "bm  : ");
+    for (int i = 0; i < b.size(); i++) {
+        fprintf(output, "b%d : %d, ", i + 1, b[i]);
+    }
+    fprintf(output, "\n");
+
+    fprintf(output, "Total Cost : %d \n", cost);
+    fclose(output);
 }
 
 void generation() {
@@ -241,52 +283,14 @@ int main() {
     srand(static_cast<unsigned int>(time(nullptr)));
     generation();
 
-
-    FILE *output;
-    output = fopen("output.txt", "w");
-
-    fprintf(output, "default : ");
-    for (int i = 0; i < chromosomes.size(); i++) {
-        fprintf(output, "%3d ", chromosomes[0]._timeWindows[i].getCase());
-    }
-    if (chromosomes[0].calculateFitnessValue() < 1) fprintf(output, "Fitness Value : 0 \n");
-    else fprintf(output, "Fitness Value : %5.3f \n", chromosomes[0].calculateFitnessValue());
-
-
-
+    D = Chromosome(chromosomes[0]);
 
 //  Part 1
     for (int i = 0; i < NumberOfGeneration; i++)
         geneAlgorithm();
     calculateCOST();
+    outputFiles();
 
 
-    fprintf(output, "aiz/ai  : ");
-    for (int i = 0; i < solution._timeWindows.size(); i++) {
-        fprintf(output, "%3d ", solution._timeWindows[i].getCase());
-    }
-    if (solution.calculateFitnessValue() < 1) fprintf(output, "Fitness Value : 0 \n");
-    else fprintf(output, "Fitness Value : %5.3f \n", solution.calculateFitnessValue());
-
-    fprintf(output, "yim : ");
-    for (int i = 0; i < y.size(); i++) {
-        fprintf(output, "y%d/%d = %3d, ", i + 1, m2[i], y[i]);
-    }
-    fprintf(output, "\n");
-
-    fprintf(output, "wim : ");
-    for (int i = 0; i < solution._timeWindows.size(); i++) {
-        fprintf(output, "w%d/%d = %3d, ", i + 1, m2[i], 1);
-    }
-    fprintf(output, "\n");
-
-    fprintf(output, "bm  : ");
-    for (int i = 0; i < b.size(); i++) {
-        fprintf(output, "b%d : %d, ", i + 1, b[i]);
-    }
-    fprintf(output, "\n");
-
-    fprintf(output, "Total Cost : %d \n", cost);
-    fclose(output);
     return 0;
 }

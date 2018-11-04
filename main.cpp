@@ -72,7 +72,7 @@ void outputFiles() {
     output = fopen("output.txt", "w");
 
     fprintf(output, "default : ");
-    for (int i = 0; i < chromosomes.size(); i++) {
+    for (int i = 0; i < D._timeWindows.size(); i++) {
         fprintf(output, "%3d ", D._timeWindows[i].getCase());
     }
     if (chromosomes[0].calculateFitnessValue() < 1) fprintf(output, "Fitness Value : 0 \n");
@@ -93,13 +93,14 @@ void outputFiles() {
 
     fprintf(output, "wim : ");
     for (int i = 0; i < solution._timeWindows.size(); i++) {
-        fprintf(output, "w%d/%d = %3d, ", i + 1, m2[i], 1);
+        if(y[i] == 0) fprintf(output, "w%d/%d = %3d, ", i + 1, m2[i], 0);
+        else fprintf(output, "w%d/%d = %3d, ", i + 1, m2[i], 1);
     }
     fprintf(output, "\n");
 
     fprintf(output, "bm  : ");
     for (int i = 0; i < b.size(); i++) {
-        fprintf(output, "b%d : %d, ", i + 1, b[i]);
+        fprintf(output, "b%d : %d, ", i , b[i]);
     }
     fprintf(output, "\n");
 
@@ -200,7 +201,7 @@ void calculateCOST() {
     // Calculate r = ai - ci
     vector<int> r;
     vector<vector<int>> timewindowProposalAndNumberOfCustomers;
-    for (int i = 0; i < solution._timeWindows.size(); i++) {
+    for (int i = 0; i < NumberOfTimeWindowSaleCase; i++) {
         timewindowProposalAndNumberOfCustomers.emplace_back(vector<int>());
     }
 
@@ -237,7 +238,6 @@ void calculateCOST() {
             m.emplace_back(6);
             m.emplace_back(7);
         }
-
         // Calculate the smallest cost when customer changes timewindow
         int caseChosen = 0;
         int mChosen = 0;
@@ -250,14 +250,18 @@ void calculateCOST() {
         }
         timewindowProposalAndNumberOfCustomers.at(caseChosen).emplace_back(i);
 
-        m2.emplace_back(mChosen);
+        m2.emplace_back(caseChosen);
         y.emplace_back(p);
     }
 
     int biggest = 0;
+
     for (int i = 0; i < NumberOfTimeWindowSaleCase; i++) {
         biggest = 0;
-        if (timewindowProposalAndNumberOfCustomers.at(i).size() == 1) {
+        if(timewindowProposalAndNumberOfCustomers.at(i).size() == 0) {
+            b.emplace_back(0);
+            continue;
+        } else if (timewindowProposalAndNumberOfCustomers.at(i).size() == 1) {
             biggest = saleDemand[timewindowProposalAndNumberOfCustomers.at(i).at(0)][i];
             b.emplace_back(biggest);
             continue;
@@ -288,9 +292,17 @@ int main() {
 //  Part 1
     for (int i = 0; i < NumberOfGeneration; i++)
         geneAlgorithm();
+
+//    for(int i = 0; i < chromosomes.size(); i++) {
+//        for(int j = 0; j < chromosomes[i]._timeWindows.size(); j++) {
+//            cout << chromosomes[i]._timeWindows[j].getCase() << " ";
+//        }
+//        cout << "Fitness Value : " << chromosomes[i].calculateFitnessValue() << endl;
+//    }
+
+
     calculateCOST();
     outputFiles();
-
 
     return 0;
 }

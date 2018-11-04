@@ -17,12 +17,12 @@
 
 extern int NumberOfDeterministicCustomers;
 
-static const int NumberOfChromosome = 10;
-static const unsigned int NumberOfGeneration = 500;
+static const int NumberOfChromosome = 100;
+static const unsigned int NumberOfGeneration = 1000;
 
-const int T = 3;
+const int T = 4;
 static const int Alpha = 1;
-static const int Beta = 1;
+static const int Beta = 160;
 const int bBar = 160;
 
 const int NumberOfTimeWindowCase = 12;

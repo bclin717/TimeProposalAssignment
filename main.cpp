@@ -99,8 +99,9 @@ void outputFiles() {
     fprintf(output, "\n");
 
     fprintf(output, "bm  : ");
-    for (int i = 0; i < b.size(); i++) {
-        fprintf(output, "b%d : %d, ", i , b[i]);
+    fprintf(output, "b0 : 0, ");
+    for (int i = 1; i < b.size() + 1; i++) {
+        fprintf(output, "b%d : %d, ", i, b[i - 1]);
     }
     fprintf(output, "\n");
 
@@ -202,7 +203,7 @@ void calculateCOST() {
     vector<int> r;
     vector<vector<int>> timewindowProposalAndNumberOfCustomers;
     for (int i = 0; i < NumberOfTimeWindowSaleCase; i++) {
-        timewindowProposalAndNumberOfCustomers.emplace_back(vector<int>());
+        timewindowProposalAndNumberOfCustomers.emplace_back(vector<int>(0));
     }
 
     for (int i = 0; i < solution._timeWindows.size(); i++) {
@@ -213,12 +214,13 @@ void calculateCOST() {
 
     for (int i = 0; i < solution._timeWindows.size(); i++) {
         int p = 999999;
+        m.clear();
         if (r.at(i) == 0) {
             m.emplace_back(0);
             m2.emplace_back(0);
             y.emplace_back(0);
             continue;
-        } else if (r.at(i) > 2) {
+        } else if (r.at(i) > 2 || r.at(i) < -2) {
             m.emplace_back(6);
             m.emplace_back(7);
         } else if (r.at(i) == 1) {
@@ -244,7 +246,7 @@ void calculateCOST() {
         for (int j = 0; j < m.size(); j++) {
             if (p > saleDemand[i][m.at(j) - 1]) {
                 p = saleDemand[i][m.at(j) - 1];
-                caseChosen = m.at(j);
+                caseChosen = m.at(j) - 1;
                 mChosen = j;
             }
         }
@@ -255,7 +257,6 @@ void calculateCOST() {
     }
 
     int biggest = 0;
-
     for (int i = 0; i < NumberOfTimeWindowSaleCase; i++) {
         biggest = 0;
         if(timewindowProposalAndNumberOfCustomers.at(i).size() == 0) {
@@ -278,6 +279,10 @@ void calculateCOST() {
         }
         b.emplace_back(biggest);
     }
+
+    for (int i = 0; i < b.size(); i++) {
+        cout << b[i] << " ";
+    }
 }
 
 int main() {
@@ -299,7 +304,6 @@ int main() {
 //        }
 //        cout << "Fitness Value : " << chromosomes[i].calculateFitnessValue() << endl;
 //    }
-
 
     calculateCOST();
     outputFiles();

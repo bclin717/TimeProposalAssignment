@@ -107,6 +107,19 @@ void outputFiles() {
 
     fprintf(output, "Total Cost : %d \n", cost);
     fclose(output);
+
+    FILE *ai, *bi;
+    ai = fopen("ai.txt", "w");
+    bi = fopen("bi.txt", "w");
+
+    D.getTimeWindowCases();
+    for (int i = 0; i < D._timeWindows.size(); i++) {
+        fprintf(ai, "%d\n", D._timeWindows[i].getLowerBound());
+        fprintf(bi, "%d\n", D._timeWindows[i].getUpperBound());
+    }
+    fclose(ai);
+    fclose(bi);
+
 }
 
 void generation() {

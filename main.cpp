@@ -120,6 +120,17 @@ void outputFiles() {
     fclose(ai);
     fclose(bi);
 
+    FILE *ai2, *bi2;
+    ai2 = fopen("ai2.txt", "w");
+    bi2 = fopen("bi2.txt", "w");
+    D.getTimeWindowCases();
+    for (int i = 0; i < D._timeWindows.size(); i++) {
+        fprintf(ai2, "%d\n", D._timeWindows[i].getUpperBound() + 30);
+        fprintf(bi2, "%d\n", 720);
+    }
+    fclose(ai2);
+    fclose(bi2);
+
 }
 
 void generation() {
